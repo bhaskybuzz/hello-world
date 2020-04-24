@@ -4,18 +4,18 @@ node{
    }
    stage('Compile-Package'){
       // Get maven home path
-      def mvnHome =  tool name: 'M2_HOME', type: 'maven'
+      def mvnHome =  tool name: 'maven-3', type: 'maven'
       sh "${mvnHome}/bin/mvn package"
    }
    stage('SonarQube Analysis') {
-        def mvnHome =  tool name: 'M2_HOME', type: 'maven'
-        withSonarQubeEnv('sonarqubeserver')
-          sh "${mvnHome}/bin/mvn clean package sonar:sonar"
-	  sh "pwd && ls"
-          }
+        def mvnHome =  tool name: 'maven-3', type: 'maven'
+        withSonarQubeEnv('sonarqubeserver') {
+          sh "${mvnHome}/bin/mvn sonar:sonar"
+        }
+    }
    stage('Deploy to Tomcat'){
       sshagent(['tomcat-dev']) {
-         sh 'scp -o StrictHostKeyChecking=no webapp/target/*.war ec2-user@172.31.92.65:/opt/apache-tomcat-8.5.54/webapps'
+         sh 'scp -o StrictHostKeyChecking=no webapp/target/*.war ec2-user@172.31.92.65:/opt/apache-tomcat-8.5.54/webapps/'
       }
    }
 }
