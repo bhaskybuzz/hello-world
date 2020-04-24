@@ -10,7 +10,7 @@ node{
    stage('SonarQube Analysis') {
         def mvnHome =  tool name: 'M2_HOME', type: 'maven'
         withSonarQubeEnv('sonarqubeserver') 
-          sh "${mvnHome}/bin/mvn sonar:sonar"
+          sh "${mvnHome}/bin/mvn clean package sonar:sonar"
           }
    stage('Deploy to Tomcat'){
       sshagent(['tomcat-dev']) {
