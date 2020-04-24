@@ -11,6 +11,7 @@ node{
         def mvnHome =  tool name: 'M2_HOME', type: 'maven'
         withSonarQubeEnv('sonarqubeserver') 
           sh "${mvnHome}/bin/mvn clean package sonar:sonar"
+	  sh "pwd && ls"
           }
    stage('Deploy to Tomcat'){
       sshagent(['tomcat-dev']) {
