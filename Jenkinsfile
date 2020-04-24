@@ -18,4 +18,9 @@ node{
          sh 'scp -o StrictHostKeyChecking=no webapp/target/*.war ec2-user@172.31.92.65:/opt/apache-tomcat-8.5.54/webapps/'
       }
    }
+   stage('Email Notification'){
+      mail bcc: '', body: '''Buld Success
+      Thanks
+      Shash''', cc: '', from: '', replyTo: '', subject: 'Jenkins Job', to: 'shaswath.m@gmail.com'
+   }
 }
